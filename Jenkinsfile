@@ -13,17 +13,6 @@ pipeline {
     preserveStashes(buildCount: 5)
   }
   stages {
-    stage('Update Config') {
-      when { 
-        branch 'master'
-      }
-      steps {
-        container('kubectl') {
-          sh('kubectl -n cje apply -f jcasc.yml')
-          sleep 30
-        } 
-      }
-    }
     stage('Run Groovy Scripts') {
       agent { label 'master' }
       when { 
@@ -31,14 +20,16 @@ pipeline {
       }
       steps {
         echo "preparing Jenkins CLI"
-        sh 'curl -O http://cjoc/cjoc/jnlpJars/jenkins-cli.jar'
+        sh 'curl -O http://teams-ops.cje.svc.cluster.local/teams-ops/jnlpJars/jenkins-cli.jar'
         withCredentials([usernamePassword(credentialsId: 'cli-username-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
           sh """
             alias cli='java -jar jenkins-cli.jar -s \'http://cjoc/cjoc/\' -auth $USERNAME:$PASSWORD'
             cli groovy = < groovy-scripts/k8s-shared-cloud.groovy
+            sleep 5
             cli reload-jcasc-configuration
-            cli reload-jcasc-configuration
+            sleep 5
             cli reload-configuration
+            sleep 5
             cli build config-jobs/reprovision-masters/ -f -v
           """
         }
