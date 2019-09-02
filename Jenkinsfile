@@ -20,6 +20,7 @@ pipeline {
       steps {
         container('kubectl') {
           sh('kubectl -n cje apply -f jcasc.yml')
+          sleep 30
         } 
       }
     }
@@ -35,6 +36,7 @@ pipeline {
           sh """
             alias cli='java -jar jenkins-cli.jar -s \'http://cjoc/cjoc/\' -auth $USERNAME:$PASSWORD'
             cli groovy = < groovy-scripts/k8s-shared-cloud.groovy
+            cli reload-jcasc-configuration
             cli reload-jcasc-configuration
             cli reload-configuration
             cli build config-jobs/reprovision-masters/ -f -v
