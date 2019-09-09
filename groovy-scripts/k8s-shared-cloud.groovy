@@ -17,8 +17,6 @@ if (job != null) {
 println "--> creating $name"
 
 def configXml = """
-
-<?xml version='1.1' encoding='UTF-8'?>
 <com.cloudbees.opscenter.clouds.kubernetes.KubernetesConfiguration plugin="operations-center-kubernetes-cloud@2.176.0.1">
   <actions/>
   <description></description>
