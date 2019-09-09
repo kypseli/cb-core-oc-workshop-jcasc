@@ -17,13 +17,15 @@ if (job != null) {
 println "--> creating $name"
 
 def configXml = """
+
+<?xml version='1.1' encoding='UTF-8'?>
 <com.cloudbees.opscenter.clouds.kubernetes.KubernetesConfiguration plugin="operations-center-kubernetes-cloud@2.176.0.1">
   <actions/>
   <description></description>
   <snippets>
     <com.cloudbees.opscenter.clouds.kubernetes.KubernetesCloudConfigurationSnippet>
       <value>
-        <string>&lt;org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin=&quot;kubernetes@1.15.9&quot;&gt;
+        <string>&lt;org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin=&quot;kubernetes@1.17.2&quot;&gt;
   &lt;name&gt;kubernetes&lt;/name&gt;
   &lt;defaultsProviderTemplate&gt;default-jnlp&lt;/defaultsProviderTemplate&gt;
   &lt;templates&gt;
@@ -37,7 +39,7 @@ def configXml = """
       &lt;instanceCap&gt;2147483647&lt;/instanceCap&gt;
       &lt;slaveConnectTimeout&gt;100&lt;/slaveConnectTimeout&gt;
       &lt;idleMinutes&gt;0&lt;/idleMinutes&gt;
-      &lt;activeDeadlineSeconds&gt;0&lt;/activeDeadlineSeconds&gt;
+      &lt;activeDeadlineSeconds&gt;180&lt;/activeDeadlineSeconds&gt;
       &lt;label&gt;default-jnlp&lt;/label&gt;
       &lt;serviceAccount&gt;jenkins&lt;/serviceAccount&gt;
       &lt;nodeSelector&gt;type=agent&lt;/nodeSelector&gt;
@@ -117,7 +119,7 @@ spec:
   &lt;connectTimeout&gt;0&lt;/connectTimeout&gt;
   &lt;readTimeout&gt;0&lt;/readTimeout&gt;
   &lt;usageRestricted&gt;false&lt;/usageRestricted&gt;
-  &lt;maxRequestsPerHost&gt;32&lt;/maxRequestsPerHost&gt;
+  &lt;maxRequestsPerHost&gt;64&lt;/maxRequestsPerHost&gt;
   &lt;waitForPodSec&gt;600&lt;/waitForPodSec&gt;
   &lt;podRetention class=&quot;org.csanchez.jenkins.plugins.kubernetes.pod.retention.Never&quot;/&gt;
 &lt;/org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud&gt;</string>
