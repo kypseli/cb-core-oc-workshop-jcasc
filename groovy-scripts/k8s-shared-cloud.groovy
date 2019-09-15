@@ -103,7 +103,7 @@ spec:
   securityContext:
     runAsUser: 1000&lt;/string&gt;
       &lt;/yamls&gt;
-      &lt;yamlMergeStrategy class=&quot;org.csanchez.jenkins.plugins.kubernetes.pod.yaml.Overrides&quot;/&gt;
+      &lt;yamlMergeStrategy class=&quot;org.csanchez.jenkins.plugins.kubernetes.pod.yaml.Merge&quot;/&gt;
       &lt;showRawYaml&gt;true&lt;/showRawYaml&gt;
       &lt;podRetention class=&quot;org.csanchez.jenkins.plugins.kubernetes.pod.retention.Default&quot;/&gt;
     &lt;/org.csanchez.jenkins.plugins.kubernetes.PodTemplate&gt;
