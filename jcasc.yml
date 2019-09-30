@@ -9,7 +9,7 @@ unclassified:
     enabled: false
   dockerImageDefinitionConfiguration:
     images:
-    - imageTag: "gcr.io/technologists/cb-core-mm-workshop:2176.33.8"
+    - imageTag: "gcr.io/technologists/cb-core-mm-workshop:2176.43.2"
       name: "CloudBees Core - Workshop Team Master"
   experimentalPlugins:
     enabled: false
