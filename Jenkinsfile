@@ -19,6 +19,11 @@ pipeline {
         branch 'master'
       }
       steps {
+        echo "merging k8s cloud xml with groovy"
+        sh("""
+          sed -i 's/&/\\&amp;/g; s/</\\&lt;/g; s/>/\\&gt;/g; s/"/\\&quot;/g; s/'"'"'/\\&#39;/g' groovy/k8s-cloud.xml
+        """)
+        sh("sed -i -e '/INSERT_ESCAPED_XML/{r groovy/k8s-cloud.xml' -e 'd}' groovy/k8s-shared-cloud.groovy")
         echo "preparing Jenkins CLI"
         sh 'curl -O http://managed-masters-ops.cje.svc.cluster.local/managed-masters-ops/jnlpJars/jenkins-cli.jar'
         withCredentials([usernamePassword(credentialsId: 'cli-username-token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
