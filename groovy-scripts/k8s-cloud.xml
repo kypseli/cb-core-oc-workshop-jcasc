@@ -1,0 +1,100 @@
+<org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin="kubernetes@1.17.2">
+  <name>kubernetes</name>
+  <defaultsProviderTemplate>default-jnlp</defaultsProviderTemplate>
+  <templates>
+    <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+      <inheritFrom></inheritFrom>
+      <name>default-jnlp</name>
+      <namespace></namespace>
+      <privileged>false</privileged>
+      <capOnlyOnAlivePods>false</capOnlyOnAlivePods>
+      <alwaysPullImage>false</alwaysPullImage>
+      <instanceCap>2147483647</instanceCap>
+      <slaveConnectTimeout>100</slaveConnectTimeout>
+      <idleMinutes>0</idleMinutes>
+      <activeDeadlineSeconds>180</activeDeadlineSeconds>
+      <label>default-jnlp</label>
+      <serviceAccount>jenkins</serviceAccount>
+      <nodeSelector>workload=general</nodeSelector>
+      <nodeUsageMode>NORMAL</nodeUsageMode>
+      <customWorkspaceVolumeEnabled>false</customWorkspaceVolumeEnabled>
+      <workspaceVolume class="org.csanchez.jenkins.plugins.kubernetes.volumes.workspace.EmptyDirWorkspaceVolume">
+        <memory>false</memory>
+      </workspaceVolume>
+      <volumes>
+        <org.csanchez.jenkins.plugins.kubernetes.volumes.ConfigMapVolume>
+          <mountPath>/var/jenkins_config</mountPath>
+          <configMapName>jenkins-agent</configMapName>
+        </org.csanchez.jenkins.plugins.kubernetes.volumes.ConfigMapVolume>
+      </volumes>
+      <containers>
+        <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+          <name>jnlp</name>
+          <image>gcr.io/core-workshop/k8s-jnlp-agent@sha256:28490f8659bcfdae8159286d6c88fdd7365d6928255103e7500f05dd527bdc8f</image>
+          <privileged>false</privileged>
+          <alwaysPullImage>false</alwaysPullImage>
+          <workingDir>/home/jenkins</workingDir>
+          <command>/bin/sh</command>
+          <args>/var/jenkins_config/jenkins-agent</args>
+          <ttyEnabled>true</ttyEnabled>
+          <resourceRequestCpu>500m</resourceRequestCpu>
+          <resourceRequestMemory>500Mi</resourceRequestMemory>
+          <resourceLimitCpu>1</resourceLimitCpu>
+          <resourceLimitMemory>3Gi</resourceLimitMemory>
+          <envVars/>
+          <ports/>
+          <livenessProbe>
+            <execArgs></execArgs>
+            <timeoutSeconds>0</timeoutSeconds>
+            <initialDelaySeconds>0</initialDelaySeconds>
+            <failureThreshold>0</failureThreshold>
+            <periodSeconds>0</periodSeconds>
+            <successThreshold>0</successThreshold>
+          </livenessProbe>
+        </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+      </containers>
+      <envVars/>
+      <annotations/>
+      <imagePullSecrets/>
+      <nodeProperties/>
+      <yamls class="singleton-list">
+        <string>apiVersion: v1
+kind: Pod
+metadata:
+  name: default-jnlp
+spec:
+  containers:
+  - args:
+    - /var/jenkins_config/jenkins-agent
+    command:
+    - /bin/sh
+    image: gcr.io/core-workshop/k8s-jnlp-agent@sha256:28490f8659bcfdae8159286d6c88fdd7365d6928255103e7500f05dd527bdc8f
+    imagePullPolicy: IfNotPresent
+    name: jnlp
+    resources: {}
+    tty: true
+    securityContext:
+      runAsUser: 1000
+  securityContext:
+    runAsUser: 1000</string>
+      </yamls>
+      <yamlMergeStrategy class="org.csanchez.jenkins.plugins.kubernetes.pod.yaml.Merge"/>
+      <showRawYaml>true</showRawYaml>
+      <podRetention class="org.csanchez.jenkins.plugins.kubernetes.pod.retention.Default"/>
+    </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+  </templates>
+  <serverUrl></serverUrl>
+  <skipTlsVerify>false</skipTlsVerify>
+  <addMasterProxyEnvVars>false</addMasterProxyEnvVars>
+  <capOnlyOnAlivePods>false</capOnlyOnAlivePods>
+  <namespace>core-demo</namespace>
+  <credentialsId>k8s-sa-core-demo-jenkins</credentialsId>
+  <containerCap>2147483647</containerCap>
+  <retentionTimeout>5</retentionTimeout>
+  <connectTimeout>0</connectTimeout>
+  <readTimeout>0</readTimeout>
+  <usageRestricted>false</usageRestricted>
+  <maxRequestsPerHost>64</maxRequestsPerHost>
+  <waitForPodSec>600</waitForPodSec>
+  <podRetention class="org.csanchez.jenkins.plugins.kubernetes.pod.retention.Never"/>
+</org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud>
